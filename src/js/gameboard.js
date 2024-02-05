@@ -3,6 +3,7 @@ import Ship from './ship';
 class Gameboard {
   constructor() {
     this.board = [];
+    this.previousAttacks = [];
 
     for (let i = 0; i < 10; i += 1) {
       const temp = [];
@@ -24,6 +25,7 @@ class Gameboard {
   }
 
   receiveAttack(coordPair) {
+    this.previousAttacks.push(coordPair);
     const cell = this.board[coordPair[0]][coordPair[1]];
 
     if (typeof cell === 'object') {
@@ -46,6 +48,19 @@ class Gameboard {
     }
 
     return true;
+  }
+
+  inPreviousAttacks(coordPair) {
+    for (let i = 0; i < this.previousAttacks.length; i += 1) {
+      if (
+        this.previousAttacks[i][0] === coordPair[0] &&
+        this.previousAttacks[i][1] === coordPair[1]
+      ) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }
 

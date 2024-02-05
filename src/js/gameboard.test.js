@@ -21,7 +21,12 @@ test('placeShip() places ship', () => {
   expect(testGameboard.board[0][2]).toMatch(/empty/);
 });
 
-test('recieveAttack() on ship increases timesHit', () => {
+test('receiveAttack() pushes coordinates to previousAttacks', () => {
+  testGameboard.receiveAttack([0, 0]);
+  expect(testGameboard.previousAttacks).toEqual([[0, 0]]);
+});
+
+test('receiveAttack() on ship increases timesHit', () => {
   testGameboard.placeShip([
     [0, 0],
     [0, 1],
@@ -30,7 +35,7 @@ test('recieveAttack() on ship increases timesHit', () => {
   expect(testGameboard.board[0][0].timesHit).toBe(1);
 });
 
-test('recieveAttack() on empty changes to miss', () => {
+test('receiveAttack() on empty changes to miss', () => {
   testGameboard.receiveAttack([0, 0]);
   expect(testGameboard.board[0][0]).toMatch(/miss/);
 });

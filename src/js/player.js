@@ -1,7 +1,8 @@
 import Gameboard from './gameboard';
 
 class Player {
-  constructor() {
+  constructor(name) {
+    this.name = name;
     this.playerBoard = new Gameboard();
     this.computerBoard = new Gameboard();
   }

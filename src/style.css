@@ -12,7 +12,7 @@
 body {
   height: 100vh;
   display: grid;
-  grid-template-rows: max-content 1fr;
+  grid-template-rows: max-content max-content 1fr;
   justify-items: center;
   gap: 30px;
 }
@@ -34,4 +34,30 @@ button {
   padding: 5px 10px;
   border-radius: 5px;
   margin-top: 20px;
+}
+
+.message-box {
+  font-size: 1.5rem;
+}
+
+.game-content {
+  width: 100%;
+  text-align: center;
+  display: grid;
+  grid-template-columns: max-content max-content;
+  justify-content: space-evenly;
+  font-family: 'ITC Machine Regular', sans-serif;
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(10, 30px);
+  grid-template-rows: repeat(10, 30px);
+  gap: 1px;
+}
+
+.cell {
+  background-color: white;
 }

@@ -9,7 +9,7 @@ class Gameboard {
       const temp = [];
 
       for (let j = 0; j < 10; j += 1) {
-        temp.push('empty');
+        temp.push(null);
       }
 
       this.board.push(temp);

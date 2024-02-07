@@ -58,6 +58,20 @@ button {
   gap: 1px;
 }
 
+#player .cell {
+  cursor: auto;
+}
+
 .cell {
   background-color: white;
+  cursor: pointer;
+}
+
+.attacked {
+  background-image: url(./img/alpha-x.svg);
+  cursor: auto;
+}
+
+.hit {
+  background-color: #ff6161;
 }

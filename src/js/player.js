@@ -23,7 +23,7 @@ class Player {
       row = Math.floor(Math.random() * 10);
       column = Math.floor(Math.random() * 10);
     }
-    
+
     this.playerBoard.receiveAttack([row, column]);
   }
 }

@@ -42,6 +42,23 @@ const dom = {
     document.body.insertBefore(messageBox, gameContent);
   },
 
+  endGame() {
+    const messageBox = document.querySelector('.message-box');
+    const newGameButton = document.createElement('button');
+    newGameButton.classList.add('new-game');
+    newGameButton.textContent = 'New Game';
+    messageBox.appendChild(newGameButton);
+  },
+
+  openForm() {
+    const messageBox = document.querySelector('.message-box');
+    const gameContent = document.querySelector('.game-content');
+    const form = document.querySelector('form');
+    messageBox.remove();
+    gameContent.remove();
+    form.style.display = 'block';
+  },
+
   buildBoard(gameboard) {
     const board = document.createElement('div');
     board.classList.add('board');
@@ -78,6 +95,11 @@ const dom = {
     boardContainers[1].textContent = '';
     boardContainers[0].appendChild(playerBoardNode);
     boardContainers[1].appendChild(computerBoardNode);
+  },
+
+  newMessage(message) {
+    const messageBox = document.querySelector('.message-box');
+    messageBox.textContent = message;
   },
 };
 

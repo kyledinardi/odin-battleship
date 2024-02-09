@@ -70,6 +70,10 @@ button {
   cursor: pointer;
 }
 
+.ship {
+  background-color: gray;
+}
+
 .attacked {
   background-image: url(./img/alpha-x.svg);
   cursor: auto;

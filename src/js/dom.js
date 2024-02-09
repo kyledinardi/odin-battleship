@@ -59,7 +59,7 @@ const dom = {
     form.style.display = 'block';
   },
 
-  buildBoard(gameboard) {
+  buildBoard(gameboard, isPlayer) {
     const board = document.createElement('div');
     board.classList.add('board');
 
@@ -67,6 +67,13 @@ const dom = {
       const cell = document.createElement('div');
       cell.classList.add('cell');
       cell.dataset.cell = i;
+
+      if (
+        typeof gameboard.board[Math.floor(i / 10)][i % 10] === 'object' &&
+        isPlayer
+      ) {
+        cell.classList.add('ship');
+      }
 
       for (let j = 0; j < gameboard.previousAttacks.length; j += 1) {
         if (
@@ -88,8 +95,8 @@ const dom = {
   },
 
   appendBoards(playerBoard, computerBoard) {
-    const playerBoardNode = dom.buildBoard(playerBoard);
-    const computerBoardNode = dom.buildBoard(computerBoard);
+    const playerBoardNode = dom.buildBoard(playerBoard, true);
+    const computerBoardNode = dom.buildBoard(computerBoard, false);
     const boardContainers = document.querySelectorAll('.board-container');
     boardContainers[0].textContent = '';
     boardContainers[1].textContent = '';

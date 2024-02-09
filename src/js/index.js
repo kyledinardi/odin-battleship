@@ -14,9 +14,10 @@ function endGame() {
   }
 
   dom.endGame();
-
   const newGameButton = document.querySelector('.new-game');
+  const enemy = document.querySelector('#enemy');
   newGameButton.addEventListener('click', dom.openForm);
+  enemy.removeEventListener('click', playRound);
 }
 
 function playRound(e) {
@@ -39,7 +40,8 @@ function playRound(e) {
 // form.addEventListener('submit', (e) => {
 player = new Player();
 dom.startGame(e);
+player.computerPlaceShips();
 dom.appendBoards(player.playerBoard, player.computerBoard);
-const enemyBoard = document.querySelector('#enemy');
-enemyBoard.addEventListener('click', playRound);
+const enemy = document.querySelector('#enemy');
+enemy.addEventListener('click', playRound);
 // });

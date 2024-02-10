@@ -16,8 +16,8 @@ class Gameboard {
     }
   }
 
-  placeShip(coordinates) {
-    const currentShip = new Ship(coordinates.length);
+  placeShip(name, coordinates) {
+    const currentShip = new Ship(name, coordinates.length);
 
     coordinates.forEach((coordPair) => {
       this.board[coordPair[0]][coordPair[1]] = currentShip;

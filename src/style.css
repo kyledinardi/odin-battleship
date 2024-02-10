@@ -12,7 +12,7 @@
 body {
   height: 100vh;
   display: grid;
-  grid-template-rows: max-content max-content 1fr;
+  grid-template-rows: max-content max-content 200px;
   justify-items: center;
   gap: 30px;
 }
@@ -33,14 +33,36 @@ button {
   width: max-content;
   padding: 5px 10px;
   border-radius: 5px;
-  margin-top: 20px;
+  cursor: pointer;
 }
 
 .message-box {
   font-size: 1.5rem;
   display: grid;
-  grid-template-rows: max-content, max-content;
   justify-items: center;
+  grid-template-rows: max-content max-content;
+}
+
+.ship-div {
+  display: grid;
+  margin: 10px 0;
+  grid-template-columns: repeat(5, 30px);
+  gap: 1px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.all-ships {
+  display: grid;
+  grid-template-columns: max-content max-content;
+  align-items: center;
+  justify-items: center;
+  column-gap: 30px;
+  margin: 20px 0;
+}
+
+.all-ships p {
+  margin: 0;
 }
 
 .game-content {
@@ -61,13 +83,8 @@ button {
   gap: 1px;
 }
 
-#player .cell {
-  cursor: auto;
-}
-
 .cell {
   background-color: white;
-  cursor: pointer;
 }
 
 .ship {
@@ -76,9 +93,12 @@ button {
 
 .attacked {
   background-image: url(./img/alpha-x.svg);
-  cursor: auto;
 }
 
 .hit {
   background-color: #ff6161;
+}
+
+.clickable {
+  cursor: pointer;
 }

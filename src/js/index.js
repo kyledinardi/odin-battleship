@@ -3,22 +3,6 @@ import Player from './player';
 import dom from './dom';
 
 let player;
-const form = document.querySelector('form');
-const e = { preventDefault() {}, target: { reset() {} } };
-
-function endGame() {
-  if (player.computerBoard.allSunk()) {
-    dom.newMessage('Enemy fleet sunk! You win!');
-  } else {
-    dom.newMessage('Your fleet was sunk! Game over!');
-  }
-
-  dom.endGame();
-  const newGameButton = document.querySelector('.new-game');
-  const enemy = document.querySelector('#enemy');
-  newGameButton.addEventListener('click', dom.openForm);
-  enemy.removeEventListener('click', playRound);
-}
 
 function playRound(e) {
   e.stopImmediatePropagation();
@@ -28,20 +12,38 @@ function playRound(e) {
     !e.target.classList.contains('attacked')
   ) {
     const { cell } = e.target.dataset;
-    player.playerMove([Math.floor(cell / 10), cell % 10]);
+    const message = player.playerMove([Math.floor(cell / 10), cell % 10]);
+    dom.newMessage(message);
     player.computerMove();
-    dom.appendBoards(player.playerBoard, player.computerBoard);
+    dom.appendBoards(player.playerBoard, player.computerBoard, false, false);
   }
   if (player.playerBoard.allSunk() || player.computerBoard.allSunk()) {
     endGame();
   }
 }
 
+function endGame() {
+  if (player.computerBoard.allSunk()) {
+    dom.newMessage('Enemy fleet sunk! You win!');
+  } else {
+    dom.newMessage('Your fleet was sunk! Game over!');
+  }
+
+  dom.appendBoards(player.playerBoard, player.computerBoard, false, true);
+  dom.endGame();
+  const newGameButton = document.querySelector('.new-game');
+  const enemy = document.querySelector('#enemy');
+  newGameButton.addEventListener('click', dom.openForm);
+  enemy.removeEventListener('click', playRound);
+}
+
+// const form = document.querySelector('form');
+const e = { preventDefault() {}, target: { reset() {} } };
 // form.addEventListener('submit', (e) => {
 player = new Player();
 dom.startGame(e);
 player.computerPlaceShips();
-dom.appendBoards(player.playerBoard, player.computerBoard);
-const enemy = document.querySelector('#enemy');
-enemy.addEventListener('click', playRound);
+dom.playerPlaceShips(player);
+// const enemy = document.querySelector('#enemy');
+// enemy.addEventListener('click', playRound);
 // });

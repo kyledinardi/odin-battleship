@@ -7,12 +7,19 @@ class Player {
   }
 
   playerMove(coordPair) {
-    if (this.computerBoard.inPreviousAttacks(coordPair)) {
-      return false;
+    this.computerBoard.receiveAttack(coordPair);
+    const cell = this.computerBoard[coordPair[0]][coordPair[1]]
+    let message = 'You missed the enemy';
+
+    if (typeof cell === 'object') {
+      message = 'You hit the enemy!'
+
+      if (cell.isSunk) {
+        message = `${message} You sunk the enemy's ${cell.name}!`;
+      }
     }
 
-    this.computerBoard.receiveAttack(coordPair);
-    return true;
+    return message;
   }
 
   computerMove() {
@@ -63,7 +70,7 @@ class Player {
               coordinates.push([row, firstColumn + i]);
             }
 
-            this.computerBoard.placeShip(coordinates);
+            this.computerBoard.placeShip(ship.name, coordinates);
           }
 
           keepGoing = !allEmpty;
@@ -88,7 +95,7 @@ class Player {
               coordinates.push([firstRow + i, column]);
             }
 
-            this.computerBoard.placeShip(coordinates);
+            this.computerBoard.placeShip(ship.name, coordinates);
           }
 
           keepGoing = !allEmpty;

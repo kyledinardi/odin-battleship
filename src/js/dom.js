@@ -60,7 +60,7 @@ const dom = {
     form.style.display = 'block';
   },
 
-  buildBoard(gameboard, shipsVisible, isClickable) {
+  buildBoard(gameboard, type, condition) {
     const board = document.createElement('div');
     board.classList.add('board');
 
@@ -71,7 +71,7 @@ const dom = {
 
       if (
         typeof gameboard.board[Math.floor(i / 10)][i % 10] === 'object' &&
-        shipsVisible
+        (type === 'player' || condition === 'game over')
       ) {
         cell.classList.add('ship');
       }
@@ -89,7 +89,11 @@ const dom = {
         }
       }
 
-      if (isClickable && !cell.classList.contains('attacked')) {
+      if (
+        type === 'computer' &&
+        condition === 'normal play' &&
+        !cell.classList.contains('attacked')
+      ) {
         cell.classList.add('clickable');
       }
 
@@ -99,23 +103,13 @@ const dom = {
     return board;
   },
 
-  appendBoards(playerBoard, computerBoard, shipPlacing, isGameOver) {
-    let playerBoardNode;
-    let computerBoardNode;
-
-    if (shipPlacing) {
-      playerBoardNode = dom.buildBoard(playerBoard, true, true);
-    } else {
-      playerBoardNode = dom.buildBoard(playerBoard, true, false);
-    }
-
-    if (shipPlacing) {
-      computerBoardNode = dom.buildBoard(computerBoard, false, false);
-    } else if (isGameOver) {
-      computerBoardNode = dom.buildBoard(computerBoard, true, false);
-    } else {
-      computerBoardNode = dom.buildBoard(computerBoard, false, true);
-    }
+  appendBoards(playerBoard, computerBoard, condition) {
+    const playerBoardNode = dom.buildBoard(playerBoard, 'player', condition);
+    const computerBoardNode = dom.buildBoard(
+      computerBoard,
+      'computer',
+      condition,
+    );
 
     const boardContainers = document.querySelectorAll('.board-container');
     boardContainers[0].textContent = '';
@@ -129,17 +123,14 @@ const dom = {
     messageP.textContent = message;
   },
 
-  playerPlaceShips(player) {
-    const messageBox = document.querySelector('.message-box');
-    let allShips = document.createElement('div');
-    allShips.classList.add('all-ships');
-    messageBox.append(allShips);
-    allShips = document.querySelector('.all-ships');
+  createShips(isVertical) {
+    const allShips = document.querySelector('.all-ships');
 
-    const rotateButton = document.createElement('button');
-    rotateButton.textContent = 'Rotate';
-    messageBox.appendChild(rotateButton);
-    this.appendBoards(player.playerBoard, player.computerBoard, true, false);
+    if (isVertical) {
+      allShips.classList.add('vertical');
+    } else {
+      allShips.classList.remove('vertical');
+    }
 
     const ships = [
       { name: 'Carrier', size: 5 },
@@ -149,11 +140,20 @@ const dom = {
       { name: 'Patrol Boat', size: 2 },
     ];
 
+    if (isVertical) {
+      ships.forEach((ship) => {
+        const shipName = document.createElement('p');
+        shipName.textContent = ship.name;
+        allShips.append(shipName);
+      });
+    }
+
     ships.forEach((ship) => {
-      const shipName = document.createElement('p');
       const shipDiv = document.createElement('div');
-      shipName.textContent = ship.name;
       shipDiv.classList.add('ship-div');
+      const idName = ship.name === 'Patrol Boat' ? 'Patrol-Boat' : ship.name;
+      shipDiv.setAttribute('id', idName);
+      shipDiv.setAttribute('draggable', 'true');
 
       for (let i = 0; i < ship.size; i += 1) {
         const cell = document.createElement('div');
@@ -161,9 +161,39 @@ const dom = {
         shipDiv.appendChild(cell);
       }
 
-      allShips.append(shipName);
+      if (!isVertical) {
+        const shipName = document.createElement('p');
+        shipName.textContent = ship.name;
+        allShips.append(shipName);
+      }
+
       allShips.append(shipDiv);
+
+      shipDiv.addEventListener('dragstart', (e) => {
+        e.dataTransfer.setData('text', e.target.id);
+      });
     });
+  },
+
+  playerPlaceShips(player) {
+    let isVertical = false;
+    const messageBox = document.querySelector('.message-box');
+    const allShips = document.createElement('div');
+    allShips.classList.add('all-ships');
+
+    const rotateButton = document.createElement('button');
+    rotateButton.textContent = 'Rotate';
+    messageBox.appendChild(rotateButton);
+    messageBox.append(allShips);
+
+    rotateButton.addEventListener('click', () => {
+      isVertical = !isVertical;
+      allShips.textContent = '';
+      this.createShips(isVertical);
+    });
+
+    this.appendBoards(player.playerBoard, player.computerBoard, 'ship placing');
+    this.createShips(isVertical);
   },
 };
 

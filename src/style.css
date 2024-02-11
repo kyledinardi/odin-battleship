@@ -43,15 +43,6 @@ button {
   grid-template-rows: max-content max-content;
 }
 
-.ship-div {
-  display: grid;
-  margin: 10px 0;
-  grid-template-columns: repeat(5, 30px);
-  gap: 1px;
-  height: 30px;
-  cursor: pointer;
-}
-
 .all-ships {
   display: grid;
   grid-template-columns: max-content max-content;
@@ -59,6 +50,22 @@ button {
   justify-items: center;
   column-gap: 30px;
   margin: 20px 0;
+}
+
+.ship-div {
+  display: grid;
+  margin: 10px 0;
+  grid-auto-flow: column;
+  grid-auto-columns: 30px;
+  gap: 1px;
+  height: 30px;
+  cursor: pointer;
+  justify-self: start;
+}
+
+.vertical {
+  grid-template-columns: repeat(5, max-content);
+  grid-template-rows: max-content max-content;
 }
 
 .all-ships p {

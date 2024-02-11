@@ -15,7 +15,7 @@ function playRound(e) {
     const message = player.playerMove([Math.floor(cell / 10), cell % 10]);
     dom.newMessage(message);
     player.computerMove();
-    dom.appendBoards(player.playerBoard, player.computerBoard, false, false);
+    dom.appendBoards(player.playerBoard, player.computerBoard, 'normal play');
   }
   if (player.playerBoard.allSunk() || player.computerBoard.allSunk()) {
     endGame();
@@ -29,7 +29,7 @@ function endGame() {
     dom.newMessage('Your fleet was sunk! Game over!');
   }
 
-  dom.appendBoards(player.playerBoard, player.computerBoard, false, true);
+  dom.appendBoards(player.playerBoard, player.computerBoard, 'game over');
   dom.endGame();
   const newGameButton = document.querySelector('.new-game');
   const enemy = document.querySelector('#enemy');
@@ -42,8 +42,8 @@ const e = { preventDefault() {}, target: { reset() {} } };
 // form.addEventListener('submit', (e) => {
 player = new Player();
 dom.startGame(e);
-player.computerPlaceShips();
 dom.playerPlaceShips(player);
+player.computerPlaceShips();
 // const enemy = document.querySelector('#enemy');
 // enemy.addEventListener('click', playRound);
 // });

@@ -1,8 +1,28 @@
 import '../style.css';
 import Player from './player';
 import dom from './dom';
+import playerPlaceShips from './playerPlaceShips';
+import computerPlaceShips from './computerPlaceShips';
 
 let player;
+let isGameOver = false;
+
+function endGame() {
+  if (isGameOver) {
+    return
+  }
+  if (player.computerBoard.allSunk()) {
+    dom.newMessage('Enemy fleet sunk! You win!');
+  } else {
+    dom.newMessage('Your fleet was sunk! Game over!');
+  }
+
+  dom.appendBoards(player.playerBoard, player.computerBoard, 'game over');
+  dom.endGame();
+
+  const newGameButton = document.querySelector('.new-game');
+  newGameButton.addEventListener('click', dom.openForm);
+}
 
 function playRound(e) {
   e.stopImmediatePropagation();
@@ -19,22 +39,8 @@ function playRound(e) {
   }
   if (player.playerBoard.allSunk() || player.computerBoard.allSunk()) {
     endGame();
+    isGameOver = true;
   }
-}
-
-function endGame() {
-  if (player.computerBoard.allSunk()) {
-    dom.newMessage('Enemy fleet sunk! You win!');
-  } else {
-    dom.newMessage('Your fleet was sunk! Game over!');
-  }
-
-  dom.appendBoards(player.playerBoard, player.computerBoard, 'game over');
-  dom.endGame();
-  const newGameButton = document.querySelector('.new-game');
-  const enemy = document.querySelector('#enemy');
-  newGameButton.addEventListener('click', dom.openForm);
-  enemy.removeEventListener('click', playRound);
 }
 
 // const form = document.querySelector('form');
@@ -42,8 +48,9 @@ const e = { preventDefault() {}, target: { reset() {} } };
 // form.addEventListener('submit', (e) => {
 player = new Player();
 dom.startGame(e);
-dom.playerPlaceShips(player);
-player.computerPlaceShips();
-// const enemy = document.querySelector('#enemy');
-// enemy.addEventListener('click', playRound);
+playerPlaceShips.place(player);
+computerPlaceShips(player.computerBoard);
+dom.appendBoards(player.playerBoard, player.computerBoard, 'normal play');
+const enemy = document.querySelector('#enemy');
+enemy.addEventListener('click', playRound);
 // });

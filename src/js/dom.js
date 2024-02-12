@@ -75,6 +75,13 @@ const dom = {
       ) {
         cell.classList.add('ship');
       }
+      if (
+        type === 'computer' &&
+        condition === 'normal play' &&
+        !cell.classList.contains('attacked')
+      ) {
+        cell.classList.add('clickable');
+      }
 
       for (let j = 0; j < gameboard.previousAttacks.length; j += 1) {
         if (
@@ -87,14 +94,6 @@ const dom = {
             cell.classList.add('hit');
           }
         }
-      }
-
-      if (
-        type === 'computer' &&
-        condition === 'normal play' &&
-        !cell.classList.contains('attacked')
-      ) {
-        cell.classList.add('clickable');
       }
 
       board.appendChild(cell);
@@ -121,79 +120,6 @@ const dom = {
   newMessage(message) {
     const messageP = document.querySelector('.message-box p');
     messageP.textContent = message;
-  },
-
-  createShips(isVertical) {
-    const allShips = document.querySelector('.all-ships');
-
-    if (isVertical) {
-      allShips.classList.add('vertical');
-    } else {
-      allShips.classList.remove('vertical');
-    }
-
-    const ships = [
-      { name: 'Carrier', size: 5 },
-      { name: 'Battleship', size: 4 },
-      { name: 'Destroyer', size: 3 },
-      { name: 'Submarine', size: 3 },
-      { name: 'Patrol Boat', size: 2 },
-    ];
-
-    if (isVertical) {
-      ships.forEach((ship) => {
-        const shipName = document.createElement('p');
-        shipName.textContent = ship.name;
-        allShips.append(shipName);
-      });
-    }
-
-    ships.forEach((ship) => {
-      const shipDiv = document.createElement('div');
-      shipDiv.classList.add('ship-div');
-      const idName = ship.name === 'Patrol Boat' ? 'Patrol-Boat' : ship.name;
-      shipDiv.setAttribute('id', idName);
-      shipDiv.setAttribute('draggable', 'true');
-
-      for (let i = 0; i < ship.size; i += 1) {
-        const cell = document.createElement('div');
-        cell.classList.add('ship');
-        shipDiv.appendChild(cell);
-      }
-
-      if (!isVertical) {
-        const shipName = document.createElement('p');
-        shipName.textContent = ship.name;
-        allShips.append(shipName);
-      }
-
-      allShips.append(shipDiv);
-
-      shipDiv.addEventListener('dragstart', (e) => {
-        e.dataTransfer.setData('text', e.target.id);
-      });
-    });
-  },
-
-  playerPlaceShips(player) {
-    let isVertical = false;
-    const messageBox = document.querySelector('.message-box');
-    const allShips = document.createElement('div');
-    allShips.classList.add('all-ships');
-
-    const rotateButton = document.createElement('button');
-    rotateButton.textContent = 'Rotate';
-    messageBox.appendChild(rotateButton);
-    messageBox.append(allShips);
-
-    rotateButton.addEventListener('click', () => {
-      isVertical = !isVertical;
-      allShips.textContent = '';
-      this.createShips(isVertical);
-    });
-
-    this.appendBoards(player.playerBoard, player.computerBoard, 'ship placing');
-    this.createShips(isVertical);
   },
 };
 

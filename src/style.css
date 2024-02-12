@@ -45,7 +45,8 @@ button {
 
 .all-ships {
   display: grid;
-  grid-template-columns: max-content max-content;
+  grid-template-columns: max-content 200px;
+  grid-template-rows: repeat(5, 50px);
   align-items: center;
   justify-items: center;
   column-gap: 30px;
@@ -58,14 +59,18 @@ button {
   grid-auto-flow: column;
   grid-auto-columns: 30px;
   gap: 1px;
-  height: 30px;
   cursor: pointer;
   justify-self: start;
 }
 
 .vertical {
   grid-template-columns: repeat(5, max-content);
-  grid-template-rows: max-content max-content;
+}
+
+.vertical .ship-div {
+  grid-auto-flow: row;
+  justify-self: center;
+  align-self: flex-start;
 }
 
 .all-ships p {
@@ -94,8 +99,9 @@ button {
   background-color: white;
 }
 
-.ship {
+.ship, .temp-ship {
   background-color: gray;
+  height: 30px;
 }
 
 .attacked {

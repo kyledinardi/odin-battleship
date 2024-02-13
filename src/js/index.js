@@ -32,9 +32,9 @@ function playRound(e) {
     !e.target.classList.contains('attacked')
   ) {
     const { cell } = e.target.dataset;
-    const message = player.playerMove([Math.floor(cell / 10), cell % 10]);
-    dom.newMessage(message);
-    player.computerMove();
+    const message1 = player.playerMove([Math.floor(cell / 10), cell % 10]);
+    const message2 = player.computerMove();
+    dom.newMessage(message1, message2);
     dom.appendBoards(player.playerBoard, player.computerBoard, 'normal play');
   }
   if (player.playerBoard.allSunk() || player.computerBoard.allSunk()) {
@@ -48,16 +48,17 @@ const e = { preventDefault() {}, target: { reset() {} } };
 // form.addEventListener('submit', (e) => {
 player = new Player();
 dom.startGame(e);
-playerPlaceShips.place(player);
+// playerPlaceShips.place(player);
 // });
 
-const startButton = document.querySelector('.start');
+// const startButton = document.querySelector('.start');
 
-startButton.addEventListener('click', () => {
-  computerPlaceShips(player.computerBoard);
-  dom.appendBoards(player.playerBoard, player.computerBoard, 'normal play');
-  dom.newMessage('Fire when ready!');
-  const enemy = document.querySelector('#enemy');
-  enemy.addEventListener('click', playRound);
-  startButton.remove();
-});
+// startButton.addEventListener('click', () => {
+computerPlaceShips(player.playerBoard);
+computerPlaceShips(player.computerBoard);
+dom.appendBoards(player.playerBoard, player.computerBoard, 'normal play');
+dom.newMessage('Fire when ready!');
+const enemy = document.querySelector('#enemy');
+enemy.addEventListener('click', playRound);
+// startButton.remove();
+// });

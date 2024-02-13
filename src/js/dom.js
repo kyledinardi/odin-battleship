@@ -9,7 +9,8 @@ const dom = {
     form.style.display = 'none';
 
     const messageBox = document.createElement('div');
-    const messageP = document.createElement('p');
+    const messageP1 = document.createElement('p');
+    const messageP2 = document.createElement('p');
     const gameContent = document.createElement('div');
     const playerContent = document.createElement('div');
     const enemyContent = document.createElement('div');
@@ -32,7 +33,8 @@ const dom = {
     playerCaption.textContent = name ? `${name}'s Fleet` : "Player's Fleet";
     enemyCaption.textContent = `Enemy Fleet`;
 
-    messageBox.appendChild(messageP);
+    messageBox.appendChild(messageP1);
+    messageBox.appendChild(messageP2);
     playerContent.appendChild(playerCaption);
     playerContent.appendChild(playerBoardContainer);
     enemyContent.appendChild(enemyCaption);
@@ -117,9 +119,10 @@ const dom = {
     boardContainers[1].appendChild(computerBoardNode);
   },
 
-  newMessage(message) {
-    const messageP = document.querySelector('.message-box p');
-    messageP.textContent = message;
+  newMessage(message1, message2) {
+    const messagePs = document.querySelectorAll('.message-box p');
+    messagePs[0].textContent = message1;
+    messagePs[1].textContent = message2;
   },
 };
 

@@ -14,7 +14,7 @@ class Player {
     if (typeof cell === 'object') {
       message = 'You hit the enemy!';
 
-      if (cell.isSunk) {
+      if (cell.isSunk()) {
         message = `${message} You sunk the enemy's ${cell.name}!`;
       }
     }
@@ -25,6 +25,8 @@ class Player {
   computerMove() {
     let row = Math.floor(Math.random() * 10);
     let column = Math.floor(Math.random() * 10);
+    let message = 'The enemy missed you';
+    const cell = this.playerBoard.board[row][column];
 
     while (this.playerBoard.inPreviousAttacks([row, column])) {
       row = Math.floor(Math.random() * 10);
@@ -32,6 +34,16 @@ class Player {
     }
 
     this.playerBoard.receiveAttack([row, column]);
+
+    if (typeof cell === 'object') {
+      message = 'The enemy hit you!';
+
+      if (cell.isSunk()) {
+        message = `${message} The enemy sunk your ${cell.name}!`;
+      }
+    }
+
+    return message;
   }
 }
 

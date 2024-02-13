@@ -11,6 +11,15 @@ const playerPlaceShips = {
     { name: 'Patrol Boat', size: 2, inFleet: false },
   ],
 
+  shipsPlaced() {
+    const startButton = document.querySelector('.start')
+    const rotateButton = document.querySelector('.rotate');
+    const allShips = document.querySelector('.all-ships');
+    rotateButton.remove();
+    allShips.remove();
+    startButton.style.display = 'inline';
+  },
+
   dropHandler(e, player) {
     e.preventDefault();
     const data = e.dataTransfer.getData('text');
@@ -46,6 +55,14 @@ const playerPlaceShips = {
     const shipName = data === 'Patrol-Boat' ? 'Patrol Boat' : data;
     const currentShip = this.ships.find((ship) => ship.name === shipName);
     currentShip.inFleet = true;
+
+    for (let i = 0; i < this.ships.length; i += 1) {
+      if (!this.ships[i].inFleet) {
+        return;
+      }
+    }
+
+    this.shipsPlaced();
   },
 
   createShips() {
@@ -98,11 +115,18 @@ const playerPlaceShips = {
   place(player) {
     const messageBox = document.querySelector('.message-box');
     const playerBoardContainer = document.querySelector('#player');
-    const rotateButton = document.createElement('button');
+    const startButton = document.createElement('button');
     const allShips = document.createElement('div');
+    const rotateButton = document.createElement('button');
 
-    allShips.classList.add('all-ships');
+    startButton.textContent = 'Start';
     rotateButton.textContent = 'Rotate';
+    startButton.classList.add('start')
+    rotateButton.classList.add('rotate')
+    allShips.classList.add('all-ships');
+    startButton.style.display = 'none';
+
+    messageBox.appendChild(startButton);
     messageBox.appendChild(rotateButton);
     messageBox.append(allShips);
 

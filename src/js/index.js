@@ -9,7 +9,7 @@ let isGameOver = false;
 
 function endGame() {
   if (isGameOver) {
-    return
+    return;
   }
   if (player.computerBoard.allSunk()) {
     dom.newMessage('Enemy fleet sunk! You win!');
@@ -49,8 +49,15 @@ const e = { preventDefault() {}, target: { reset() {} } };
 player = new Player();
 dom.startGame(e);
 playerPlaceShips.place(player);
-computerPlaceShips(player.computerBoard);
-dom.appendBoards(player.playerBoard, player.computerBoard, 'normal play');
-const enemy = document.querySelector('#enemy');
-enemy.addEventListener('click', playRound);
 // });
+
+const startButton = document.querySelector('.start');
+
+startButton.addEventListener('click', () => {
+  computerPlaceShips(player.computerBoard);
+  dom.appendBoards(player.playerBoard, player.computerBoard, 'normal play');
+  dom.newMessage('Fire when ready!');
+  const enemy = document.querySelector('#enemy');
+  enemy.addEventListener('click', playRound);
+  startButton.remove();
+});

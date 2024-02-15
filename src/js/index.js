@@ -4,7 +4,9 @@ import dom from './dom';
 import playerPlaceShips from './playerPlaceShips';
 import computerPlaceShips from './computerPlaceShips';
 
+const form = document.querySelector('form');
 let player;
+let startButton;
 let isGameOver = false;
 
 function endGame() {
@@ -20,7 +22,9 @@ function endGame() {
   dom.appendBoards(player.playerBoard, player.computerBoard, 'game over');
   dom.endGame();
 
+  const enemy = document.querySelector('#enemy');
   const newGameButton = document.querySelector('.new-game');
+  enemy.replaceWith(enemy.cloneNode(true));
   newGameButton.addEventListener('click', dom.openForm);
 }
 
@@ -43,22 +47,19 @@ function playRound(e) {
   }
 }
 
-// const form = document.querySelector('form');
-const e = { preventDefault() {}, target: { reset() {} } };
-// form.addEventListener('submit', (e) => {
-player = new Player();
-dom.startGame(e);
-// playerPlaceShips.place(player);
-// });
+form.addEventListener('submit', (e) => {
+  player = new Player();
+  dom.startGame(e);
+  playerPlaceShips.place(player);
+  startButton = document.querySelector('.start');
 
-// const startButton = document.querySelector('.start');
-
-// startButton.addEventListener('click', () => {
-computerPlaceShips(player.playerBoard);
-computerPlaceShips(player.computerBoard);
-dom.appendBoards(player.playerBoard, player.computerBoard, 'normal play');
-dom.newMessage('Fire when ready!');
-const enemy = document.querySelector('#enemy');
-enemy.addEventListener('click', playRound);
-// startButton.remove();
-// });
+  startButton.addEventListener('click', () => {
+    computerPlaceShips(player.computerBoard);
+    dom.appendBoards(player.playerBoard, player.computerBoard, 'normal play');
+    dom.newMessage('Fire when ready!');
+    
+    const enemy = document.querySelector('#enemy');
+    enemy.addEventListener('click', playRound);
+    startButton.remove();
+  });
+});

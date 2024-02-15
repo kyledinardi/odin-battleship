@@ -12,7 +12,7 @@ const playerPlaceShips = {
   ],
 
   shipsPlaced() {
-    const startButton = document.querySelector('.start')
+    const startButton = document.querySelector('.start');
     const rotateButton = document.querySelector('.rotate');
     const allShips = document.querySelector('.all-ships');
     rotateButton.remove();
@@ -119,10 +119,18 @@ const playerPlaceShips = {
     const allShips = document.createElement('div');
     const rotateButton = document.createElement('button');
 
+    this.ships = [
+      { name: 'Carrier', size: 5, inFleet: false },
+      { name: 'Battleship', size: 4, inFleet: false },
+      { name: 'Destroyer', size: 3, inFleet: false },
+      { name: 'Submarine', size: 3, inFleet: false },
+      { name: 'Patrol Boat', size: 2, inFleet: false },
+    ];
+
     startButton.textContent = 'Start';
     rotateButton.textContent = 'Rotate';
-    startButton.classList.add('start')
-    rotateButton.classList.add('rotate')
+    startButton.classList.add('start');
+    rotateButton.classList.add('rotate');
     allShips.classList.add('all-ships');
     startButton.style.display = 'none';
 
